@@ -21,7 +21,7 @@ router.get("/me", auth, async (req, res) => {
   try {
     const user = await pg("users")
       .where("id", "=", req.user.id)
-      .select("id", "name", "email");
+      .select("*");
     res.send(user[0]);
   } catch (ex) {
     res.status(400).send(ex);
@@ -81,7 +81,7 @@ router.put("/me", auth, async (req, res) => {
           email,
           password: hash
         },
-        ["name", "email", "password"]
+        ["*"]
       );
     if (!newUser[0]) return res.status(400).send("No user found");
     res.send(newUser[0]);
